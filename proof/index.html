@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en-PK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>PK Hosting — Checkout &amp; Domain Configuration (Fixed Flow)</title>
+  <style>
+    :root {
+      --brand-50: #f0fdf4;
+      --brand-100: #dcfce7;
+      --brand-500: #22c55e;
+      --brand-600: #16a34a;
+      --brand-700: #138a3d;
+      --brand-800: #166534;
+      --brand-900: #14532d;
+      --ink-50: #fafaf9;
+      --ink-100: #f5f5f4;
+      --ink-200: #e7e5e4;
+      --ink-300: #d6d3d1;
+      --ink-400: #a8a29e;
+      --ink-500: #78716c;
+      --ink-600: #57514d;
+      --ink-700: #44403c;
+      --ink-800: #292524;
+      --ink-900: #1c1917;
+      --ink-950: #0c0a09;
+      --amber-50: #fffbeb;
+      --amber-100: #fef3c7;
+      --amber-600: #d97706;
+      --amber-700: #b45309;
+      --amber-800: #92400e;
+      --red-50: #fef2f2;
+      --red-600: #dc2626;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--ink-50);
+      color: var(--ink-900);
+      line-height: 1.5;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    /* Top utility bar */
+    .top-bar {
+      background: var(--ink-950);
+      color: var(--ink-300);
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+    }
+    .top-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .top-bar a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .top-bar a:hover {
+      color: #fff;
+    }
+
+    /* Main Header */
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--ink-200);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--ink-900);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .brand-logo span.pk {
+      color: var(--ink-700);
+    }
+    .brand-logo span.badge {
+      display: inline-flex;
+      background: var(--brand-50);
+      border: 1px solid var(--brand-100);
+      color: var(--brand-700);
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      margin-left: 0.25rem;
+      font-weight: 700;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .btn-header-secondary {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--ink-700);
+      background: #fff;
+      border: 1px solid var(--ink-200);
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Hero / Subhead */
+    .checkout-intro {
+      max-width: 1200px;
+      margin: 1.5rem auto 1rem;
+      padding: 0 1rem;
+    }
+    .checkout-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--brand-700);
+    }
+    .checkout-title {
+      font-size: 1.75rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--ink-950);
+      margin-top: 0.2rem;
+    }
+
+    /* Re-ordered Logical Progress Steps */
+    .progress-nav {
+      max-width: 1200px;
+      margin: 0.5rem auto 1.5rem;
+      padding: 0 1rem;
+    }
+    .progress-bar {
+      background: #fff;
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .step-pill.active {
+      background: var(--brand-700);
+      color: #fff;
+    }
+    .step-pill.completed {
+      background: var(--brand-50);
+      color: var(--brand-800);
+      border: 1px solid var(--brand-100);
+    }
+    .step-pill.idle {
+      background: var(--ink-100);
+      color: var(--ink-500);
+    }
+    .step-divider {
+      color: var(--ink-300);
+      font-size: 0.8rem;
+    }
+
+    /* Layout Grid */
+    .checkout-layout {
+      max-width: 1200px;
+      margin: 0 auto 4rem;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 992px) {
+      .checkout-layout {
+        grid-template-columns: minmax(0, 1fr) 380px;
+      }
+    }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s;
+    }
+    .card:hover {
+      border-color: var(--ink-300);
+    }
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .step-icon {
+      width: 2rem;
+      height: 2rem;
+      border-radius: var(--radius-sm);
+      background: var(--brand-50);
+      color: var(--brand-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      border: 1px solid var(--brand-100);
+    }
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--ink-950);
+    }
+    .card-subtitle {
+      font-size: 0.82rem;
+      color: var(--ink-500);
+      font-weight: 500;
+    }
+
+    /* Billing cycle grid */
+    .billing-cycles-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    @media (min-width: 640px) {
+      .billing-cycles-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    .cycle-btn {
+      border: 2px solid var(--ink-200);
+      background: #fff;
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease-in-out;
+      position: relative;
+    }
+    .cycle-btn:hover {
+      border-color: var(--brand-500);
+    }
+    .cycle-btn.selected {
+      border-color: var(--brand-700);
+      background: var(--brand-50);
+    }
+    .cycle-name {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--ink-900);
+    }
+    .cycle-price {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--brand-700);
+      margin: 0.2rem 0;
+    }
+    .cycle-savings {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--amber-700);
+      background: var(--amber-100);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .cycle-free-tag {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #fff;
+      background: var(--brand-700);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 0.2rem;
+    }
+
+    /* THE CORE FIX: 3-Way Domain Action Selector */
+    .domain-selector-container {
+      margin-top: 1.25rem;
+      border-top: 1px solid var(--ink-200);
+      padding-top: 1.25rem;
+    }
+    .domain-toggle-group {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    @media (min-width: 640px) {
+      .domain-toggle-group {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .domain-toggle-btn {
+      border: 1.5px solid var(--ink-200);
+      background: #fff;
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.5rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .domain-toggle-btn:hover {
+      border-color: var(--brand-500);
+    }
+    .domain-toggle-btn.active {
+      border-color: var(--brand-700);
+      background: var(--brand-50);
+      box-shadow: 0 0 0 1px var(--brand-700);
+    }
+    .toggle-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--ink-900);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .domain-toggle-btn.active .toggle-title {
+      color: var(--brand-800);
+    }
+    .toggle-desc {
+      font-size: 0.72rem;
+      color: var(--ink-500);
+    }
+
+    /* Input controls */
+    .input-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .domain-input-box {
+      flex: 1;
+      border: 1.5px solid var(--ink-200);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+    .domain-input-box:focus {
+      border-color: var(--brand-700);
+      box-shadow: 0 0 0 2px var(--brand-100);
+    }
+    .tld-select {
+      border: 1.5px solid var(--ink-200);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      background: var(--ink-50);
+      color: var(--ink-800);
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Domain Status & Promotion Banner */
+    .domain-feedback-banner {
+      margin-top: 0.75rem;
+      padding: 0.75rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .banner-success {
+      background: var(--brand-50);
+      border: 1px solid var(--brand-100);
+      color: var(--brand-800);
+    }
+    .banner-warning {
+      background: var(--amber-50);
+      border: 1px solid var(--amber-100);
+      color: var(--amber-800);
+    }
+    .banner-info {
+      background: #eff6ff;
+      border: 1px solid #dbeafe;
+      color: #1e40af;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 0.85rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink-700);
+      margin-bottom: 0.3rem;
+    }
+    .form-input {
+      width: 100%;
+      border: 1.5px solid var(--ink-200);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.85rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-input:focus {
+      border-color: var(--brand-700);
+      box-shadow: 0 0 0 2px var(--brand-100);
+    }
+    .form-input.is-invalid {
+      border-color: var(--red-600);
+      background-color: var(--red-50);
+    }
+    .field-error-msg {
+      color: var(--red-600);
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 0.25rem;
+      display: none;
+    }
+
+    /* Phone Input with Pinned Country Codes */
+    .phone-group {
+      display: flex;
+      border: 1.5px solid var(--ink-200);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: #fff;
+    }
+    .phone-prefix-select {
+      background: var(--ink-100);
+      border: none;
+      border-right: 1px solid var(--ink-200);
+      padding: 0 0.6rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--ink-700);
+      outline: none;
+      cursor: pointer;
+    }
+    .phone-input {
+      flex: 1;
+      border: none;
+      padding: 0.6rem 0.85rem;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    /* Payment Methods */
+    .payment-options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    @media (min-width: 640px) {
+      .payment-options-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .payment-option-card {
+      border: 1.5px solid var(--ink-200);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      transition: all 0.15s;
+    }
+    .payment-option-card:hover {
+      border-color: var(--brand-500);
+    }
+    .payment-option-card.selected {
+      border-color: var(--brand-700);
+      background: var(--brand-50);
+    }
+    .pay-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--ink-900);
+    }
+    .pay-desc {
+      font-size: 0.72rem;
+      color: var(--ink-500);
+    }
+
+    /* Order Summary Sidebar */
+    .summary-card {
+      background: #fff;
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 5rem;
+    }
+    .summary-title {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--ink-950);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--ink-200);
+    }
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      font-size: 0.88rem;
+    }
+    .summary-item-label {
+      color: var(--ink-700);
+      font-weight: 500;
+    }
+    .summary-item-sub {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--ink-500);
+    }
+    .summary-item-price {
+      font-weight: 700;
+      color: var(--ink-900);
+      white-space: nowrap;
+    }
+    .summary-discount {
+      color: var(--brand-700);
+      font-weight: 700;
+    }
+    .summary-divider {
+      height: 1px;
+      background: var(--ink-200);
+      margin: 1rem 0;
+    }
+    .summary-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1rem;
+    }
+    .summary-total-label {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--ink-950);
+    }
+    .summary-total-amount {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--brand-700);
+    }
+
+    /* Primary CTA Button */
+    .btn-submit-order {
+      width: 100%;
+      background: var(--brand-700);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1rem;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.05s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(19, 138, 61, 0.2);
+    }
+    .btn-submit-order:hover {
+      background: var(--brand-800);
+    }
+    .btn-submit-order:active {
+      transform: scale(0.99);
+    }
+
+    /* Trust badges */
+    .trust-box {
+      margin-top: 1rem;
+      background: var(--ink-50);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--ink-600);
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.35rem;
+    }
+    .trust-item:last-child {
+      margin-bottom: 0;
+    }
+    .trust-check {
+      color: var(--brand-700);
+      font-weight: bold;
+    }
+
+    /* Mobile Sticky Bar (Clean & Offset from Chat) */
+    .mobile-sticky-checkout {
+      display: none;
+    }
+    @media (max-width: 991px) {
+      .mobile-sticky-checkout {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-top: 1px solid var(--ink-200);
+        padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+        box-shadow: 0 -4px 10px rgba(0,0,0,0.06);
+        z-index: 50;
+      }
+      .mobile-sticky-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .mobile-sticky-price-box p.label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--ink-500);
+      }
+      .mobile-sticky-price-box p.amount {
+        font-size: 1.25rem;
+        font-weight: 900;
+        color: var(--brand-700);
+        line-height: 1;
+      }
+      .mobile-sticky-btn {
+        flex: 1;
+        max-width: 240px;
+        background: var(--brand-700);
+        color: #fff;
+        border: none;
+        border-radius: var(--radius-sm);
+        padding: 0.75rem 1rem;
+        font-size: 0.92rem;
+        font-weight: 800;
+        cursor: pointer;
+        text-align: center;
+      }
+    }
+
+    /* Floating Chat Clearance Fix */
+    .floating-chat-widget {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      width: 3.25rem;
+      height: 3.25rem;
+      border-radius: 9999px;
+      background: var(--brand-700);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+      z-index: 60;
+      transition: transform 0.2s;
+    }
+    .floating-chat-widget:hover {
+      transform: scale(1.05);
+    }
+    @media (max-width: 991px) {
+      .floating-chat-widget {
+        bottom: 5.25rem;
+        width: 3rem;
+        height: 3rem;
+        right: 1rem;
+      }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .shake {
+      animation: shake 0.35s ease-in-out;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(2px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-box {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      max-width: 480px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+    .modal-success-icon {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 9999px;
+      background: var(--brand-50);
+      color: var(--brand-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 2rem;
+      border: 2px solid var(--brand-100);
+    }
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--ink-950);
+    }
+    .modal-text {
+      color: var(--ink-600);
+      font-size: 0.9rem;
+      margin: 0.75rem 0 1.5rem;
+    }
+    .modal-invoice-details {
+      background: var(--ink-50);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      text-align: left;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .btn-modal-close {
+      background: var(--ink-900);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <div>📞 (042) 35692952 &nbsp;|&nbsp; ✉️ support@pkhosting.com</div>
+      <div>🇵🇰 PKR &nbsp;|&nbsp; <a href="#support">Support</a></div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a href="https://www.pkhosting.com/" class="brand-logo">
+        <span class="pk">PK</span><span>Hosting</span>
+        <span class="badge">Verified Fix</span>
+      </a>
+      <div class="header-actions">
+        <a href="#dashboard" class="btn-header-secondary">Client Dashboard</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Progress Bar -->
+  <div class="checkout-intro">
+    <p class="checkout-badge">Secure Checkout</p>
+    <h1 class="checkout-title">Complete your order</h1>
+  </div>
+
+  <nav class="progress-nav" aria-label="Checkout Progress">
+    <div class="progress-bar">
+      <span class="step-pill active" id="pill-step-1">
+        <span>1</span> Plan &amp; Domain
+      </span>
+      <span class="step-divider">→</span>
+      <span class="step-pill idle" id="pill-step-2">
+        <span>2</span> Account Details
+      </span>
+      <span class="step-divider">→</span>
+      <span class="step-pill idle" id="pill-step-3">
+        <span>3</span> Payment Method
+      </span>
+    </div>
+  </nav>
+
+  <!-- Main Layout -->
+  <main class="checkout-layout">
+    <div class="checkout-steps">
+
+      <!-- STEP 1: Plan & Domain Configuration -->
+      <section class="card" id="section-plan">
+        <div class="card-header">
+          <div class="step-icon">1</div>
+          <div>
+            <h2 class="card-title">Personal Hosting &amp; Domain Selection</h2>
+            <p class="card-subtitle">Choose your billing term and configure how your domain will be hosted.</p>
+          </div>
+        </div>
+
+        <label class="form-label">Select Billing Cycle</label>
+        <div class="billing-cycles-grid">
+          <div class="cycle-btn" data-period="1M" onclick="setBillingCycle('1M', 699, 1, 0, false)">
+            <p class="cycle-name">Monthly</p>
+            <p class="cycle-price">Rs 699<small>/mo</small></p>
+            <p class="cycle-savings">Standard</p>
+          </div>
+          <div class="cycle-btn" data-period="1Y" onclick="setBillingCycle('1Y', 6990, 12, 17, false)">
+            <p class="cycle-name">1 Year</p>
+            <p class="cycle-price">Rs 6,990<small>/yr</small></p>
+            <p class="cycle-savings">10× Rate (Save 17%)</p>
+          </div>
+          <div class="cycle-btn" data-period="2Y" onclick="setBillingCycle('2Y', 11743, 24, 30, false)">
+            <p class="cycle-name">2 Years</p>
+            <p class="cycle-price">Rs 11,743</p>
+            <p class="cycle-savings">Save 30%</p>
+          </div>
+          <div class="cycle-btn selected" data-period="3Y" onclick="setBillingCycle('3Y', 16077, 36, 36, true)">
+            <p class="cycle-name">3 Years</p>
+            <p class="cycle-price">Rs 16,077</p>
+            <p class="cycle-savings">Save 36%</p>
+            <span class="cycle-free-tag">★ Free .com Domain</span>
+          </div>
+        </div>
+
+        <!-- THE CORE FIX: 3-Way Domain Action Selection -->
+        <div class="domain-selector-container">
+          <label class="form-label">How would you like to set up your domain?</label>
+          <div class="domain-toggle-group">
+            <div class="domain-toggle-btn active" id="btn-domain-register" onclick="setDomainAction('register')">
+              <span class="toggle-title">🌐 Register New</span>
+              <span class="toggle-desc">Search &amp; register a new name</span>
+            </div>
+            <div class="domain-toggle-btn" id="btn-domain-transfer" onclick="setDomainAction('transfer')">
+              <span class="toggle-title">🔄 Transfer In</span>
+              <span class="toggle-desc">Move domain from another registrar</span>
+            </div>
+            <div class="domain-toggle-btn" id="btn-domain-own" onclick="setDomainAction('own')">
+              <span class="toggle-title">⚙️ Use Existing</span>
+              <span class="toggle-desc">I already own a domain elsewhere</span>
+            </div>
+          </div>
+
+          <!-- Register Domain View -->
+          <div id="view-domain-register">
+            <div class="input-row">
+              <input type="text" id="domain-register-input" class="domain-input-box" placeholder="mybrandname" oninput="handleDomainInputChange()" />
+              <select id="domain-tld-select" class="tld-select" onchange="handleTldChange()">
+                <option value=".com" data-price="3999" selected>.com (Rs 3,999/yr)</option>
+                <option value=".pk" data-price="4699">.pk (Rs 4,699/2yr)</option>
+                <option value=".com.pk" data-price="3499">.com.pk (Rs 3,499/2yr)</option>
+                <option value=".net" data-price="3899">.net (Rs 3,899/yr)</option>
+                <option value=".org" data-price="3899">.org (Rs 3,899/yr)</option>
+              </select>
+            </div>
+            <div id="register-feedback" class="domain-feedback-banner banner-info" style="display: none;"></div>
+          </div>
+
+          <!-- Transfer Domain View -->
+          <div id="view-domain-transfer" style="display: none;">
+            <div class="input-row">
+              <input type="text" id="domain-transfer-input" class="domain-input-box" placeholder="myexistingbrand.com" oninput="handleDomainInputChange()" />
+            </div>
+            <div class="form-group" style="margin-top: 0.75rem;">
+              <label class="form-label">EPP / Auth Transfer Code (from current registrar)</label>
+              <input type="text" id="domain-auth-code" class="form-input" placeholder="e.g. ab12-CD34-ef56" />
+            </div>
+            <div class="domain-feedback-banner banner-info">
+              <span>ℹ️ <strong>Transfer Checklist:</strong> Unlock domain at current registrar, disable transfer lock, and verify admin email to approve transfer link.</span>
+            </div>
+          </div>
+
+          <!-- Own Domain View -->
+          <div id="view-domain-own" style="display: none;">
+            <div class="input-row">
+              <input type="text" id="domain-own-input" class="domain-input-box" placeholder="mycompany.com" oninput="handleDomainInputChange()" />
+            </div>
+            <div class="domain-feedback-banner banner-warning">
+              <span>⚠️ <strong>Existing Domain Notice:</strong> PK Hosting will <em>not</em> register or bill you for this domain name. You must log in to your current registrar and point your nameservers to: <strong>ns1.pkhosting.com</strong> &amp; <strong>ns2.pkhosting.com</strong>.</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- STEP 2: Account Details -->
+      <section class="card" id="section-account">
+        <div class="card-header">
+          <div class="step-icon">2</div>
+          <div>
+            <h2 class="card-title">Account Details</h2>
+            <p class="card-subtitle">Fast checkout — invoices and service access will be sent to your email.</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="user-email">Email Address *</label>
+          <input type="email" id="user-email" class="form-input" placeholder="you@example.com" />
+          <p class="field-error-msg" id="err-user-email">Please enter a valid email address.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Mobile Number *</label>
+          <div class="phone-group" id="phone-container">
+            <select id="country-dial-select" class="phone-prefix-select" aria-label="Country dial code">
+              <optgroup label="Popular in Pakistan">
+                <option value="+92" selected>🇵🇰 +92 Pakistan</option>
+                <option value="+971">🇦🇪 +971 UAE</option>
+                <option value="+966">🇸🇦 +966 Saudi Arabia</option>
+                <option value="+44">🇬🇧 +44 UK</option>
+                <option value="+1">🇺🇸 +1 USA / Canada</option>
+              </optgroup>
+              <optgroup label="All Countries">
+                <option value="+61">🇦🇺 +61 Australia</option>
+                <option value="+973">🇧🇭 +973 Bahrain</option>
+                <option value="+880">🇧🇩 +880 Bangladesh</option>
+                <option value="+1">🇨🇦 +1 Canada</option>
+                <option value="+49">🇩🇪 +49 Germany</option>
+                <option value="+91">🇮🇳 +91 India</option>
+                <option value="+965">🇰🇼 +965 Kuwait</option>
+                <option value="+968">🇴🇲 +968 Oman</option>
+                <option value="+974">🇶🇦 +974 Qatar</option>
+                <option value="+90">🇹🇷 +90 Turkey</option>
+              </optgroup>
+            </select>
+            <input type="tel" id="user-phone" class="phone-input" placeholder="300 1234567" />
+          </div>
+          <p class="field-error-msg" id="err-user-phone">Please enter your contact mobile number.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="user-country">Country of Residence</label>
+          <select id="user-country" class="form-input" style="cursor: pointer;">
+            <option value="PK" selected>Pakistan</option>
+            <option value="AE">United Arab Emirates</option>
+            <option value="SA">Saudi Arabia</option>
+            <option value="GB">United Kingdom</option>
+            <option value="US">United States</option>
+            <option value="OTHER">Other Country</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- STEP 3: Payment Method -->
+      <section class="card" id="section-payment">
+        <div class="card-header">
+          <div class="step-icon">3</div>
+          <div>
+            <h2 class="card-title">Payment Method</h2>
+            <p class="card-subtitle">Zero additional processing fees on local Pakistani payment methods.</p>
+          </div>
+        </div>
+
+        <div class="payment-options-grid">
+          <div class="payment-option-card selected" onclick="selectPayment('jazzcash')">
+            <p class="pay-title">📱 JazzCash / EasyPaisa</p>
+            <p class="pay-desc">Mobile account debits &amp; instant QR code</p>
+          </div>
+          <div class="payment-option-card" onclick="selectPayment('card')">
+            <p class="pay-title">💳 Debit / Credit Card</p>
+            <p class="pay-desc">Visa, MasterCard, PayPak via Stripe</p>
+          </div>
+          <div class="payment-option-card" onclick="selectPayment('bank')">
+            <p class="pay-title">🏛️ Bank Transfer / Raast</p>
+            <p class="pay-desc">Instant 0-fee Pakistani Raast ID &amp; IBAN</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right Column: Transparent Order Summary -->
+    <aside class="checkout-summary-col">
+      <div class="summary-card">
+        <h3 class="summary-title">Order Summary</h3>
+
+        <!-- Hosting Item -->
+        <div class="summary-item">
+          <div>
+            <span class="summary-item-label">Personal Hosting</span>
+            <span class="summary-item-sub" id="summary-hosting-term">3 Years Term</span>
+          </div>
+          <span class="summary-item-price" id="summary-hosting-price">Rs 16,077</span>
+        </div>
+
+        <!-- Domain Item -->
+        <div class="summary-item" id="summary-domain-row">
+          <div>
+            <span class="summary-item-label" id="summary-domain-title">New Domain Registration</span>
+            <span class="summary-item-sub" id="summary-domain-sub">1 Year (.com)</span>
+          </div>
+          <span class="summary-item-price" id="summary-domain-price">Rs 3,999</span>
+        </div>
+
+        <!-- Free Domain Promo Credit -->
+        <div class="summary-item" id="summary-discount-row">
+          <div>
+            <span class="summary-item-label summary-discount">🎉 Free .com Credit</span>
+            <span class="summary-item-sub">3-Year Plan Promotion</span>
+          </div>
+          <span class="summary-item-price summary-discount" id="summary-discount-amount">-Rs 3,999</span>
+        </div>
+
+        <div class="summary-divider"></div>
+
+        <!-- Total Due -->
+        <div class="summary-total-row">
+          <span class="summary-total-label">Total Due:</span>
+          <span class="summary-total-amount" id="summary-total-amount">Rs 16,077</span>
+        </div>
+
+        <button type="button" class="btn-submit-order" id="btn-complete-order" onclick="handleOrderSubmission()">
+          <span>Complete Order &amp; Launch →</span>
+        </button>
+
+        <div class="trust-box">
+          <div class="trust-item"><span class="trust-check">✓</span> <span>30-day money-back guarantee on hosting</span></div>
+          <div class="trust-item"><span class="trust-check">✓</span> <span>Automated instant cPanel provisioning</span></div>
+          <div class="trust-item"><span class="trust-check">✓</span> <span>Invoices &amp; receipts sent to your email</span></div>
+        </div>
+
+      </div>
+    </aside>
+  </main>
+
+  <!-- Mobile Sticky Checkout Bottom Bar -->
+  <div class="mobile-sticky-checkout">
+    <div class="mobile-sticky-inner">
+      <div class="mobile-sticky-price-box">
+        <p class="label">Total Due</p>
+        <p class="amount" id="mobile-total-amount">Rs 16,077</p>
+      </div>
+      <button type="button" class="mobile-sticky-btn" onclick="handleOrderSubmission()">
+        Complete Order →
+      </button>
+    </div>
+  </div>
+
+  <!-- Floating Chat Widget -->
+  <div class="floating-chat-widget" title="Live Customer Support (Mon-Fri 9am-6pm PKT)" onclick="alert('PK Hosting local support team is ready to assist you via phone: (042) 35692952 or WhatsApp!')">
+    💬
+  </div>
+
+  <!-- Success Confirmation Modal -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal-box">
+      <div class="modal-success-icon">✓</div>
+      <h3 class="modal-title">Order Prepared Successfully!</h3>
+      <p class="modal-text">Your hosting account and domain setup have been verified and locked in.</p>
+      <div class="modal-invoice-details" id="modal-invoice-summary"></div>
+      <button type="button" class="btn-modal-close" onclick="closeSuccessModal()">Close Prototype</button>
+    </div>
+  </div>
+
+  <!-- Prototype Logic Engine -->
+  <script>
+    const state = {
+      period: '3Y',
+      hostingPrice: 16077,
+      months: 36,
+      freeComEligible: true,
+      domainAction: 'register',
+      domainSld: 'mybrandpakistan',
+      domainTld: '.com',
+      domainPrice: 3999,
+      transferCode: '',
+      email: '',
+      phone: '',
+      dialCode: '+92',
+      country: 'PK',
+      paymentMethod: 'jazzcash'
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('domain-register-input').value = state.domainSld;
+      updatePricingAndSummary();
+    });
+
+    function setBillingCycle(period, price, months, savingsPct, freeCom) {
+      state.period = period;
+      state.hostingPrice = price;
+      state.months = months;
+      state.freeComEligible = freeCom;
+
+      document.querySelectorAll('.cycle-btn').forEach(btn => {
+        btn.classList.toggle('selected', btn.getAttribute('data-period') === period);
+      });
+
+      updatePricingAndSummary();
+    }
+
+    function setDomainAction(action) {
+      state.domainAction = action;
+      
+      document.getElementById('btn-domain-register').classList.toggle('active', action === 'register');
+      document.getElementById('btn-domain-transfer').classList.toggle('active', action === 'transfer');
+      document.getElementById('btn-domain-own').classList.toggle('active', action === 'own');
+
+      document.getElementById('view-domain-register').style.display = action === 'register' ? 'block' : 'none';
+      document.getElementById('view-domain-transfer').style.display = action === 'transfer' ? 'block' : 'none';
+      document.getElementById('view-domain-own').style.display = action === 'own' ? 'block' : 'none';
+
+      updatePricingAndSummary();
+    }
+
+    function handleTldChange() {
+      const select = document.getElementById('domain-tld-select');
+      state.domainTld = select.value;
+      state.domainPrice = parseInt(select.options[select.selectedIndex].getAttribute('data-price'), 10);
+      updatePricingAndSummary();
+    }
+
+    function handleDomainInputChange() {
+      if (state.domainAction === 'register') {
+        state.domainSld = document.getElementById('domain-register-input').value.trim();
+      } else if (state.domainAction === 'transfer') {
+        state.domainSld = document.getElementById('domain-transfer-input').value.trim();
+      } else {
+        state.domainSld = document.getElementById('domain-own-input').value.trim();
+      }
+      updatePricingAndSummary();
+    }
+
+    function selectPayment(method) {
+      state.paymentMethod = method;
+      document.querySelectorAll('.payment-option-card').forEach((card, idx) => {
+        const methods = ['jazzcash', 'card', 'bank'];
+        card.classList.toggle('selected', methods[idx] === method);
+      });
+    }
+
+    function updatePricingAndSummary() {
+      const periodLabels = {
+        '1M': 'Monthly',
+        '1Y': '1 Year Term',
+        '2Y': '2 Years Term',
+        '3Y': '3 Years Term'
+      };
+
+      document.getElementById('summary-hosting-term').innerText = periodLabels[state.period];
+      document.getElementById('summary-hosting-price').innerText = 'Rs ' + state.hostingPrice.toLocaleString();
+
+      const domainRow = document.getElementById('summary-domain-row');
+      const discountRow = document.getElementById('summary-discount-row');
+      const regFeedback = document.getElementById('register-feedback');
+
+      let domainFee = 0;
+      let discountFee = 0;
+
+      if (state.domainAction === 'register') {
+        domainRow.style.display = 'flex';
+        document.getElementById('summary-domain-title').innerText = 'Domain Registration (' + (state.domainSld || 'yourdomain') + state.domainTld + ')';
+        document.getElementById('summary-domain-sub').innerText = state.domainTld.includes('.pk') ? '2-Year Registry Cycle' : '1-Year Term';
+        
+        domainFee = state.domainPrice;
+        document.getElementById('summary-domain-price').innerText = 'Rs ' + domainFee.toLocaleString();
+
+        if (state.freeComEligible && state.domainTld === '.com') {
+          discountFee = domainFee;
+          discountRow.style.display = 'flex';
+          document.getElementById('summary-discount-amount').innerText = '-Rs ' + discountFee.toLocaleString();
+          
+          regFeedback.style.display = 'flex';
+          regFeedback.className = 'domain-feedback-banner banner-success';
+          regFeedback.innerHTML = '<span>🎉 <strong>Free .com Promotion Applied:</strong> 1 year of <strong>' + (state.domainSld || 'yourdomain') + '.com</strong> is 100% free with your 3-year hosting plan!</span>';
+        } else if (state.freeComEligible && state.domainTld !== '.com') {
+          discountRow.style.display = 'none';
+          regFeedback.style.display = 'flex';
+          regFeedback.className = 'domain-feedback-banner banner-warning';
+          regFeedback.innerHTML = '<span>ℹ️ The free domain promotion applies strictly to <strong>.com</strong> extensions. <strong>' + state.domainTld + '</strong> is billed at normal registry rates.</span>';
+        } else {
+          discountRow.style.display = 'none';
+          regFeedback.style.display = 'none';
+        }
+
+      } else if (state.domainAction === 'transfer') {
+        domainRow.style.display = 'flex';
+        document.getElementById('summary-domain-title').innerText = 'Domain Transfer In';
+        document.getElementById('summary-domain-sub').innerText = 'Includes 1-Year Renewal';
+        domainFee = 3999;
+        document.getElementById('summary-domain-price').innerText = 'Rs ' + domainFee.toLocaleString();
+        discountRow.style.display = 'none';
+      } else {
+        domainRow.style.display = 'flex';
+        document.getElementById('summary-domain-title').innerText = 'External Domain Hosting';
+        document.getElementById('summary-domain-sub').innerText = 'DNS managed by user (Rs 0)';
+        domainFee = 0;
+        document.getElementById('summary-domain-price').innerText = 'Rs 0';
+        discountRow.style.display = 'none';
+      }
+
+      const totalDue = Math.max(0, state.hostingPrice + domainFee - discountFee);
+      document.getElementById('summary-total-amount').innerText = 'Rs ' + totalDue.toLocaleString();
+      document.getElementById('mobile-total-amount').innerText = 'Rs ' + totalDue.toLocaleString();
+    }
+
+    function handleOrderSubmission() {
+      document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+      document.querySelectorAll('.field-error-msg').forEach(el => el.style.display = 'none');
+
+      const emailInput = document.getElementById('user-email');
+      const phoneInput = document.getElementById('user-phone');
+      const emailVal = emailInput.value.trim();
+      const phoneVal = phoneInput.value.trim();
+
+      let hasError = false;
+
+      let activeDomainInput = null;
+      if (state.domainAction === 'register') activeDomainInput = document.getElementById('domain-register-input');
+      else if (state.domainAction === 'transfer') activeDomainInput = document.getElementById('domain-transfer-input');
+      else activeDomainInput = document.getElementById('domain-own-input');
+
+      if (!activeDomainInput.value.trim()) {
+        activeDomainInput.classList.add('is-invalid');
+        activeDomainInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        activeDomainInput.focus();
+        hasError = true;
+        return;
+      }
+
+      if (!emailVal || !emailVal.includes('@') || !emailVal.includes('.')) {
+        emailInput.classList.add('is-invalid');
+        document.getElementById('err-user-email').style.display = 'block';
+        if (!hasError) {
+          emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          emailInput.focus();
+        }
+        hasError = true;
+      }
+
+      if (!phoneVal || phoneVal.length < 7) {
+        phoneInput.classList.add('is-invalid');
+        document.getElementById('err-user-phone').style.display = 'block';
+        if (!hasError) {
+          phoneInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          phoneInput.focus();
+        }
+        hasError = true;
+      }
+
+      if (hasError) {
+        const btn = document.getElementById('btn-complete-order');
+        btn.classList.add('shake');
+        setTimeout(() => btn.classList.remove('shake'), 400);
+        return;
+      }
+
+      const fullDomain = state.domainAction === 'register' ? (state.domainSld + state.domainTld) : (activeDomainInput.value.trim());
+      const totalText = document.getElementById('summary-total-amount').innerText;
+
+      const summaryHtml = ;
+
+      document.getElementById('modal-invoice-summary').innerHTML = summaryHtml;
+      document.getElementById('success-modal').classList.add('active');
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('success-modal').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
